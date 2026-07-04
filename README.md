@@ -41,3 +41,4 @@ can be renamed with one edit plus a find/replace.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the local workflow, the full
 validation gate, and how to add a provider adapter.
+[RELEASING.md](RELEASING.md) covers the publish process and packaging status.
