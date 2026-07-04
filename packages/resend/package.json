@@ -1,0 +1,36 @@
+{
+  "name": "@mailway/resend",
+  "version": "0.0.0",
+  "description": "Resend adapter for mailway — implements @mailway/core's EmailProvider on the official resend SDK, with error mapping and Svix webhook support.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "README.md"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+      "require": { "types": "./dist/index.d.cts", "default": "./dist/index.cjs" }
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@mailway/core": "workspace:^",
+    "resend": ">=4"
+  },
+  "devDependencies": {
+    "@mailway/core": "workspace:*",
+    "@types/node": "^24.0.0",
+    "resend": "^4.0.0",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}
