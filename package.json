@@ -1,0 +1,29 @@
+{
+  "name": "mailway-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.29.3",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "description": "Framework-agnostic multi-provider email library — monorepo root.",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "typecheck": "pnpm -r exec tsc --noEmit",
+    "lint": "oxlint --threads=1 packages/*/src packages/*/test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "attw": "attw --pack packages/core",
+    "schema:emit": "node packages/core/dist/schema/emit.js",
+    "schema:check": "node packages/core/dist/schema/emit.js && git diff --exit-code packages/core/schemas",
+    "changeset": "changeset"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.4",
+    "@changesets/cli": "^2.31.0",
+    "oxlint": "^1.72.0",
+    "prettier": "^3.9.4"
+  }
+}

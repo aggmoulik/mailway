@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Attachment",
+  "anyOf": [
+    {
+      "type": "object",
+      "required": [
+        "filename",
+        "content"
+      ],
+      "properties": {
+        "filename": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "contentId": {
+          "type": "string"
+        },
+        "disposition": {
+          "anyOf": [
+            {
+              "const": "attachment",
+              "type": "string"
+            },
+            {
+              "const": "inline",
+              "type": "string"
+            }
+          ]
+        },
+        "content": {
+          "type": "string"
+        },
+        "url": {
+          "not": {}
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "filename",
+        "url"
+      ],
+      "properties": {
+        "filename": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "contentId": {
+          "type": "string"
+        },
+        "disposition": {
+          "anyOf": [
+            {
+              "const": "attachment",
+              "type": "string"
+            },
+            {
+              "const": "inline",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "type": "string"
+        },
+        "content": {
+          "not": {}
+        }
+      }
+    }
+  ]
+}

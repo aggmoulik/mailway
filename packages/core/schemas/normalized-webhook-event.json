@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NormalizedWebhookEvent",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "providerType",
+    "provider",
+    "timestamp",
+    "raw"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "title": "NormalizedWebhookEventType",
+      "anyOf": [
+        {
+          "const": "sent",
+          "type": "string"
+        },
+        {
+          "const": "delivered",
+          "type": "string"
+        },
+        {
+          "const": "delivery_delayed",
+          "type": "string"
+        },
+        {
+          "const": "bounced",
+          "type": "string"
+        },
+        {
+          "const": "complained",
+          "type": "string"
+        },
+        {
+          "const": "opened",
+          "type": "string"
+        },
+        {
+          "const": "clicked",
+          "type": "string"
+        },
+        {
+          "const": "failed",
+          "type": "string"
+        },
+        {
+          "const": "unsubscribed",
+          "type": "string"
+        }
+      ]
+    },
+    "providerType": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "emailId": {
+      "type": "string"
+    },
+    "recipient": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "raw": {}
+  }
+}

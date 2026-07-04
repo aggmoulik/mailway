@@ -1,2 +1,20 @@
 # Planning artifacts (kept local, not committed)
 .claude/prds/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Test / coverage
+coverage/
+
+# Logs & OS
+*.log
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
