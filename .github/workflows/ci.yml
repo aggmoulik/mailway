@@ -39,6 +39,8 @@ jobs:
         run: |
           pnpm exec attw --pack packages/core
           pnpm exec attw --pack packages/resend
+          pnpm exec attw --pack packages/autosend
+          pnpm exec attw --pack packages/usesend
 
       - name: Schema drift check
         run: |

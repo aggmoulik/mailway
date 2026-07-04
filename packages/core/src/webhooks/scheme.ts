@@ -17,4 +17,6 @@ export interface WebhookScheme {
   parseSignatureHeader(value: string): string[];
   /** Replay window in seconds; `null` or omitted skips the timestamp check. */
   toleranceSeconds?: number | null;
+  /** Unit of the timestamp header for the replay check. Defaults to `'seconds'`. */
+  timestampUnit?: 'seconds' | 'milliseconds';
 }

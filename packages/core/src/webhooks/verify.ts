@@ -49,8 +49,10 @@ function verifyTimestamp(scheme: WebhookScheme, headers: Record<string, string>)
   if (!Number.isFinite(timestamp)) {
     throw new ValidationError('Invalid webhook timestamp header');
   }
-  const nowSeconds = Math.floor(Date.now() / 1000);
-  if (Math.abs(nowSeconds - timestamp) > tolerance) {
+  const unit = scheme.timestampUnit ?? 'seconds';
+  const now = unit === 'milliseconds' ? Date.now() : Math.floor(Date.now() / 1000);
+  const toleranceInUnit = unit === 'milliseconds' ? tolerance * 1000 : tolerance;
+  if (Math.abs(now - timestamp) > toleranceInUnit) {
     throw new ValidationError('Webhook timestamp is outside the tolerance window');
   }
 }

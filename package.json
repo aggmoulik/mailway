@@ -15,7 +15,7 @@
     "lint": "oxlint --threads=1 packages/*/src packages/*/test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "attw": "attw --pack packages/core && attw --pack packages/resend",
+    "attw": "attw --pack packages/core && attw --pack packages/resend && attw --pack packages/autosend && attw --pack packages/usesend",
     "schema:emit": "node packages/core/dist/schema/emit.js",
     "schema:check": "node packages/core/dist/schema/emit.js && git diff --exit-code packages/core/schemas",
     "changeset": "changeset"

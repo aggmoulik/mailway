@@ -1,0 +1,29 @@
+{
+  "name": "@mailway/autosend",
+  "version": "0.0.0",
+  "description": "AutoSend adapter for mailway — implements @mailway/core's EmailProvider on the autosendjs SDK, with error mapping and HMAC webhook support.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "README.md"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+      "require": { "types": "./dist/index.d.cts", "default": "./dist/index.cjs" }
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": { "build": "tsup", "test": "vitest run", "typecheck": "tsc --noEmit" },
+  "peerDependencies": { "@mailway/core": "workspace:^", "autosendjs": ">=1" },
+  "devDependencies": {
+    "@mailway/core": "workspace:*",
+    "@types/node": "^24.0.0",
+    "autosendjs": "^1.0.4",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}
