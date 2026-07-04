@@ -43,6 +43,28 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  examples/webhook-receiver:
+    dependencies:
+      '@mailway/autosend':
+        specifier: workspace:*
+        version: link:../../packages/autosend
+      '@mailway/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@mailway/resend':
+        specifier: workspace:*
+        version: link:../../packages/resend
+      '@mailway/usesend':
+        specifier: workspace:*
+        version: link:../../packages/usesend
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.13.2
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   packages/autosend:
     devDependencies:
       '@mailway/core':
