@@ -23,6 +23,97 @@ export interface MailerConfig {
 const orderedStrategy: RoutingStrategy = { order: (providers) => providers };
 
 /**
+ * Round-robin routing: each send starts with the next provider in sequence,
+ * cycling through the list. The returned ordering is a full rotation, so every
+ * provider stays available for failover after the chosen primary. State is
+ * per-strategy — build one strategy and reuse it across sends.
+ */
+export function roundRobinStrategy(): RoutingStrategy {
+  let counter = 0;
+  return {
+    order(providers) {
+      const n = providers.length;
+      if (n === 0) return providers;
+      const offset = counter % n;
+      counter += 1;
+      return [...providers.slice(offset), ...providers.slice(0, offset)];
+    },
+  };
+}
+
+/** Options for {@link weightedStrategy}. */
+export interface WeightedStrategyOptions {
+  /**
+   * RNG returning a float in `[0, 1)`, injectable for deterministic tests.
+   * Defaults to `Math.random`.
+   */
+  random?: () => number;
+}
+
+/**
+ * Weighted-random routing: on each send, providers with a positive weight are
+ * ordered by weighted sampling without replacement, so the primary slot is
+ * chosen proportional to weight. Providers with no weight (or weight `0`) are
+ * appended after, in their original order, as failover-only fallbacks.
+ *
+ * Weights are keyed by {@link EmailProvider.name}.
+ *
+ * @throws ValidationError if any weight is negative or non-finite, or if no
+ * weight is positive.
+ */
+export function weightedStrategy(
+  weights: Record<string, number>,
+  options: WeightedStrategyOptions = {},
+): RoutingStrategy {
+  let hasPositive = false;
+  for (const [name, weight] of Object.entries(weights)) {
+    if (!Number.isFinite(weight) || weight < 0) {
+      throw new ValidationError(
+        `weightedStrategy: weight for '${name}' must be a finite number >= 0`,
+      );
+    }
+    if (weight > 0) hasPositive = true;
+  }
+  if (!hasPositive) {
+    throw new ValidationError(
+      'weightedStrategy: at least one provider must have a positive weight',
+    );
+  }
+  const random = options.random ?? Math.random;
+
+  return {
+    order(providers) {
+      const pool: { provider: EmailProvider; weight: number }[] = [];
+      const rest: EmailProvider[] = [];
+      let total = 0;
+      for (const provider of providers) {
+        const weight = weights[provider.name] ?? 0;
+        if (weight > 0) {
+          pool.push({ provider, weight });
+          total += weight;
+        } else {
+          rest.push(provider);
+        }
+      }
+
+      const ordered: EmailProvider[] = [];
+      while (pool.length > 0) {
+        let r = random() * total;
+        let i = 0;
+        for (; i < pool.length - 1; i += 1) {
+          r -= pool[i]!.weight;
+          if (r < 0) break;
+        }
+        const [picked] = pool.splice(i, 1);
+        ordered.push(picked!.provider);
+        total -= picked!.weight;
+      }
+      return [...ordered, ...rest];
+    },
+  };
+}
+
+/**
  * Builds a {@link Mailer} that tries providers in strategy order, wrapping each
  * attempt in {@link withRetry}. If every provider fails, it throws an
  * `AggregateError` of the per-provider {@link MailxError}s.

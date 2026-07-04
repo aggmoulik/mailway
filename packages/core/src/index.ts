@@ -25,8 +25,8 @@ export type { EmailProvider, SendOptions, SendResult } from './provider';
 export { withRetry } from './retry';
 export type { RetryOptions } from './retry';
 
-export { createMailer } from './routing';
-export type { Mailer, MailerConfig, RoutingStrategy } from './routing';
+export { createMailer, roundRobinStrategy, weightedStrategy } from './routing';
+export type { Mailer, MailerConfig, RoutingStrategy, WeightedStrategyOptions } from './routing';
 
 export type { WebhookScheme } from './webhooks/scheme';
 export { verifyWebhook } from './webhooks/verify';
